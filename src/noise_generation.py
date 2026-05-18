@@ -149,7 +149,8 @@ def linear_interpolation(array, old_x, old_y, new_x, new_y):
     curr_flip_array = np.flip(array, axis=0)
 
     # create interpolation function
-    f = interpolate.interp2d(old_x, np.flip(old_y), curr_flip_array, kind = 'linear')
+    #f = interpolate.interp2d(old_x, np.flip(old_y), curr_flip_array, kind = 'linear') # this function is deprecated, use RegularGridInterpolator instead
+    f = interpolate.RegularGridInterpolator((np.flip(old_y), old_x), curr_flip_array, method='linear', bounds_error=False)
 
     # use it to interpolate to new grid
     new_z = f(new_x, np.flip(new_y))
@@ -185,11 +186,11 @@ def coordinate_transform(lon_data, lat_data):
     transformer = Transformer.from_crs(4326, 2163)
     lat_prj_array = []
     lon_prj_array = []
-    for pt in transformer.itransform(points):
-        lat_prj_array.append(pt[1])
-        lon_prj_array.append(pt[0])
-    lat_prj_array = np.reshape(np.array(lat_prj_array), lat_array.shape)  # projected location in m
-    lon_prj_array = np.reshape(np.array(lon_prj_array), lat_array.shape)  # projected location in m
+    transformed_points = list(transformer.itransform(points))
+    lon_prj_array = np.array([pt[0] for pt in transformed_points])
+    lat_prj_array = np.array([pt[1] for pt in transformed_points])
+    lat_prj_array = np.reshape(lat_prj_array, lat_array.shape)
+    lon_prj_array = np.reshape(lon_prj_array, lat_array.shape)
 
     return lat_prj_array, lon_prj_array
 
