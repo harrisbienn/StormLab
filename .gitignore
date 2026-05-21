@@ -13,3 +13,16 @@ output/
 
 # Ignore the .npy file
 .npy
+
+# Ignore the .zip file
+data.zip
+
+# Ignore the .egg-info directory
+src/stormlab.egg-info/dependency_links.txt
+src/stormlab.egg-info/PKG-INFO
+src/stormlab.egg-info/SOURCES.txt
+src/stormlab.egg-info/top_level.txt
+src/stormlab.egg-info/requires.txt
+
+# Ignore the .vscode directory
+.vscode/settings.json
