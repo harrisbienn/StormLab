@@ -1,5 +1,8 @@
 # Ignore all .log files
 *.log
+__pycache__/
+*.py[cod]
+.pytest_cache/
 
 # Ignore the data nad output direcotry
 data/

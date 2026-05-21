@@ -1,0 +1,21 @@
+name: stormlab-notebooks
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy>=1.26
+  - scipy>=1.14
+  - xarray>=2024.1
+  - netcdf4
+  - h5netcdf
+  - hdf5
+  - xesmf
+  - pandas>=2.2
+  - pyproj>=3.6
+  - scikit-learn>=1.4
+  - scikit-image>=0.22
+  - matplotlib-base>=3.8
+  - matplotlib-inline
+  - jupyterlab
+  - ipykernel
+  - pytest>=8

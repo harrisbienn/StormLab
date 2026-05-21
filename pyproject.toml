@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stormlab"
+version = "0.1.0"
+description = "Space-time nonstationary stochastic rainfall model for large-area basins."
+readme = "Readme.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+    { name = "Yuan Liu" },
+    { name = "Daniel B. Wright" },
+    { name = "David J. Lorenz" },
+]
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.14",
+    "xarray>=2024.1",
+    "netCDF4>=1.6",
+    "h5netcdf>=1.3",
+    "xesmf>=0.8",
+    "pandas>=2.2",
+    "pyproj>=3.6",
+    "scikit-learn>=1.4",
+    "scikit-image>=0.22",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+py-modules = [
+    "CSGD_hybrid",
+    "fit_tngd",
+    "noise_generation",
+    "simulation",
+    "tracking",
+    "tracking_utility",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

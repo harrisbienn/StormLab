@@ -9,7 +9,53 @@ a stochastic rainfall generator that simulate 6-hour,
 conditioned on global climate model data.
 
 ## Dependencies
-Required packages are listed in requirements.txt
+Required packages are listed in `environment.yml` and `requirements.txt`.
+
+For new work, use the installable package interface:
+
+```bash
+conda env create -f environment.yml
+conda activate stormlab
+pip install -e .[dev]
+pytest
+```
+
+For demo notebooks and EDA plots, use the separate notebook environment:
+
+```bash
+conda env create -f environment-notebooks.yml
+conda activate stormlab-notebooks
+pip install -e .[dev]
+python -m ipykernel install --user --name stormlab-notebooks --display-name "StormLab notebooks"
+jupyter lab
+```
+
+If the environment already exists, update it after dependency changes with:
+
+```bash
+conda env update -f environment-notebooks.yml --prune
+```
+
+Then import StormLab from another script or pipeline:
+
+```python
+from stormlab.noise import noise_generation
+from stormlab.simulation import rainfall_simulation
+from stormlab.tracking import rainstorm_tracking
+```
+
+For pipeline code, prefer the validated wrappers:
+
+```python
+from stormlab.config import NoiseGenerationConfig
+from stormlab.noise import generate_noise
+from stormlab.simulation import simulate_rainfall
+from stormlab.tracking import track_rainstorms
+```
+
+See `docs/pipeline_integration.md` for integration notes.
+
+Modern demo notebooks are available in `examples_pipeline/`. The original notebooks in `examples/` are kept as reference examples for the published workflow.
 
 ## Usage
 1. Download the example data and unzip at the code folder "/StormLab."

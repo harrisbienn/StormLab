@@ -2,7 +2,6 @@
 
 import xarray as xr
 import numpy as np
-from pyproj import Transformer
 import os
 from scipy import interpolate
 
@@ -149,11 +148,18 @@ def linear_interpolation(array, old_x, old_y, new_x, new_y):
     curr_flip_array = np.flip(array, axis=0)
 
     # create interpolation function
-    #f = interpolate.interp2d(old_x, np.flip(old_y), curr_flip_array, kind = 'linear') # this function is deprecated, use RegularGridInterpolator instead
-    f = interpolate.RegularGridInterpolator((np.flip(old_y), old_x), curr_flip_array, method='linear', bounds_error=False)
+    f = interpolate.RegularGridInterpolator(
+        (np.flip(old_y), old_x),
+        curr_flip_array,
+        method='linear',
+        bounds_error=False,
+        fill_value=None,
+    )
 
     # use it to interpolate to new grid
-    new_z = f(new_x, np.flip(new_y))
+    new_y_grid, new_x_grid = np.meshgrid(np.flip(new_y), new_x, indexing='ij')
+    new_points = np.column_stack((new_y_grid.ravel(), new_x_grid.ravel()))
+    new_z = f(new_points).reshape(len(new_y), len(new_x))
 
     # flip it
     new_z = np.flip(new_z, axis = 0)
@@ -176,6 +182,8 @@ def coordinate_transform(lon_data, lat_data):
     :param lat_data: Latitude coordinate of the grid (degree)
     :return:
     """
+    from pyproj import Transformer
+
     lon_array, lat_array = np.meshgrid(lon_data, lat_data)
     lon_array_flat = lon_array.flatten()
     lat_array_flat = lat_array.flatten()

@@ -45,7 +45,10 @@ def rainfall_simulation(noise_array, logic_mu_array, scipy_a_array, scipy_scale_
         rainfall_mask = ~np.isnan(curr_second_prob_array)
 
         curr_a_array = scipy_a_array[time_index]
-        curr_c_array = scipy_gg_c_array
+        if scipy_gg_c_array.ndim == 3:
+            curr_c_array = scipy_gg_c_array[time_index]
+        else:
+            curr_c_array = scipy_gg_c_array
         curr_scale_array = scipy_scale_array[time_index]
 
         # get the corresponding GG distribution params
